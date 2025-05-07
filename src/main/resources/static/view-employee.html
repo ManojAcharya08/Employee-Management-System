@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Employees</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>View Employees</h1>
+
+    <!-- Table to display employees -->
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Thymeleaf loop to display employee data -->
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.name}">Name</td>
+                <td th:text="${employee.email}">Email</td>
+                <td th:text="${employee.department.name}">Department</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Link to add a new employee -->
+    <a href="/add-employee" class="button">Add New Employee</a>
+
+    <!-- Optional: Add pagination links if needed -->
+    <div th:if="${#fields.hasErrors()}">
+        <p th:text="${#fields.errors()}" style="color: red;"></p>
+    </div>
+</body>
+</html>

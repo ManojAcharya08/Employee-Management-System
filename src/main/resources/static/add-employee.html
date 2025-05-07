@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee</title>
+</head>
+<body>
+    <h1>Add Employee</h1>
+
+    <form id="employeeForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="departmentId">Department ID:</label>
+        <input type="text" id="departmentId" name="departmentId" required><br><br>
+
+        <button type="submit">Add Employee</button>
+    </form>
+
+    <script>
+        document.getElementById("employeeForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get form data
+            const employeeData = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                departmentId: document.getElementById("departmentId").value
+            };
+
+            // Send the data as JSON using fetch
+            fetch("/api/employees", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(employeeData) // Convert data to JSON format
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error saving employee data");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Employee added:", data);
+                alert("Employee added successfully!");
+
+                // Optionally, reset the form after submission
+                document.getElementById("employeeForm").reset();
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while adding the employee. Please try again.");
+            });
+        });
+    </script>
+</body>
+</html>
